@@ -42,6 +42,8 @@ if (!(window.MathJax && MathJax.Hub)) {
 //
 if (window.MathJax) {window.MathJax = {AuthorConfig: window.MathJax}}
                else {window.MathJax = {}}
+MathJax = window.MathJax;
+navigator = window.navigator;
 
 // MathJax.isPacked = true; // This line is uncommented by the packer.
 
@@ -703,7 +705,7 @@ MathJax.cdnFileVersions = {};  // can be used to specify revisions for individua
     //  Cache-breaking revision number for file
     //
     fileRev: function (file) {
-      var rev = BASE.cdnFileVersions[name] || BASE.cdnVersion;
+      var rev = BASE.cdnFileVersions[file] || BASE.cdnVersion;
       if (rev) {rev = "?rev="+rev}
       return rev;
     },
@@ -2406,7 +2408,7 @@ MathJax.Hub = {
   //  IE8 fails to check "obj instanceof HTMLCollection" for some values of obj.
   //
   isHTMLCollection: function (obj) {
-    return ("HTMLCollection" in window && typeof(obj) === "object" && obj instanceof HTMLCollection);
+    return ("HTMLCollection" in window && typeof(obj) === "object" && obj && obj.constructor.name === "HTMLCollection");
   },
   //
   //  IE8 doesn't deal with HTMLCollection as an array, so convert to array
