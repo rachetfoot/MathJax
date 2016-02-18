@@ -326,6 +326,9 @@
         container.onmousedown   = EVENT.Mousedown;
         container.onclick       = EVENT.Click;
         container.ondblclick    = EVENT.DblClick;
+        // Added for keyboard accessible menu.
+        container.onkeydown = EVENT.Keydown;
+        container.tabIndex = HUB.getTabOrder(jax);
 	if (HUB.Browser.noContextMenu) {
 	  container.ontouchstart = TOUCH.start;
 	  container.ontouchend   = TOUCH.end;
@@ -530,7 +533,10 @@
         var CLASS = []; if (this["class"]) {CLASS.push(this["class"])}
         if (this.isa(MML.TeXAtom)) {
           var TEXCLASS = ["ORD","OP","BIN","REL","OPEN","CLOSE","PUNCT","INNER","VCENTER"][this.texClass];
-          if (TEXCLASS) {CLASS.push("MJX-TeXAtom-"+TEXCLASS)}
+          if (TEXCLASS) {
+            CLASS.push("MJX-TeXAtom-"+TEXCLASS)
+            if (TEXCLASS === "OP" && !this.movablelimits) CLASS.push("MJX-fixedlimits");
+          }
         }
         if (this.mathvariant && this.NativeMMLvariants[this.mathvariant])
           {CLASS.push("MJX"+this.mathvariant)}
@@ -556,8 +562,8 @@
       //  Create a MathML element
       //
       NativeMMLelement: function (type) {
-        var math = (document.createElementNS ? document.createElementNS(nMML.MMLnamespace,type) :
-                    (HUB.Browser.mpNamespace ? document.createElement("m:"+type) :
+        var math = ( HUB.Browser.mpNamespace ? document.createElement("m:"+type) :
+                   (document.createElementNS ? document.createElementNS(nMML.MMLnamespace,type) :
                                                document.createElement(type)));
         math.isMathJax = true;
         return math;
@@ -627,12 +633,19 @@
     MML.munderover.Augment({
       //
       //  Use proper version of munder, mover, or munderover, depending on
-      //  which items are present
+      //  which items are present.  Handle movablelimits on TeXAtom base.
       //
       toNativeMML: function (parent) {
 	var type = this.type;
-	if (this.data[this.under] == null) {type = "mover"}
-	if (this.data[this.over] == null)  {type = "munder"}
+        var base = this.data[this.base];
+        if (base && base.isa(MML.TeXAtom) && base.movablelimits && !base.Get("displaystyle")) {
+          type = "msubsup";
+          if (this.data[this.under] == null) {type = "msup"}
+          if (this.data[this.over] == null)  {type = "msub"}
+        } else {
+          if (this.data[this.under] == null) {type = "mover"}
+          if (this.data[this.over] == null)  {type = "munder"}
+        }
 	var tag = this.NativeMMLelement(type);
 	this.NativeMMLattributes(tag);
 	if (this.data[0]) {delete this.data[0].inferred}
@@ -1249,7 +1262,7 @@
         // Some browsers do not implement the mmultiscripts element.
         // Try to emulate the support using basic script elements.
         //
-        if (!nMML.mmultiscriptsBug || this.data.length === 0 ) {
+        if (!nMML.mmultiscriptsBug || this.data.length === 0) {
           this.SUPER(arguments).toNativeMML.call(this,parent);
           return;
         }
@@ -1267,7 +1280,7 @@
         //
         if (this.data[0]) {this.data[0].toNativeMML(tag)}
         else {tag.appendChild(this.NativeMMLelement("mrow"))}
-        base = tag.removeChild(tag.lastChild);
+        var base = tag.removeChild(tag.lastChild);
 
         //
         // Process the postscript pairs
@@ -1350,7 +1363,6 @@
       nMML.msieIE8HeightBug = (mode === 8);
     },
     Opera: function (browser) {
-      nMML.operaPositionBug = true;
       nMML.stretchyMoBug = true;
       nMML.tableLabelBug = true;
       nMML.mfencedBug = true;
