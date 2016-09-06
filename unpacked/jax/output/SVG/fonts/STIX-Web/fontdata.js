@@ -174,37 +174,43 @@
             remap: {0x1D49D: 0x212C, 0x1D4A0: 0x2130, 0x1D4A1: 0x2131, 0x1D4A3: 0x210B, 0x1D4A4: 0x2110, 0x1D4A7: 0x2112, 0x1D4A8: 0x2133, 0x1D4AD: 0x211B, 0x1D4BA: 0x212F, 0x1D4BC: 0x210A, 0x1D4C4: 0x2134}
           },
           "bold-script": {
-            fonts: [SCRIPTBOLDITALIC], bold:true, italic:true,
+            fonts: [SCRIPTBOLDITALIC,MAIN,MONOSPACE,LATIN,ALPHABETS,MARKS,
+        ARROWS,OPERATORS,SYMBOLS,SHAPES,MISC,VARIANTS,SIZE1], bold:true, italic:true,
             offsetA: 0x1D4D0
           },
           "sans-serif": {
-            fonts: [SANSSERIF],
+            fonts: [SANSSERIF,MAIN,MONOSPACE,LATIN,ALPHABETS,MARKS,
+        ARROWS,OPERATORS,SYMBOLS,SHAPES,MISC,VARIANTS,SIZE1],
             offsetA: 0x1D5A0,
             offsetN: 0x1D7E2,
             offsetG: 0xE17D,
             offsetE: 0xE17D
           },
           "bold-sans-serif": {
-            fonts: [SANSSERIFBOLD], bold:true,
+            fonts: [SANSSERIFBOLD,MAIN,MONOSPACE,LATIN,ALPHABETS,MARKS,
+        ARROWS,OPERATORS,SYMBOLS,SHAPES,MISC,VARIANTS,SIZE1], bold:true,
             offsetA: 0x1D5D4,
             offsetN: 0x1D7EC,
             offsetG: 0x1D756
           },
           "sans-serif-italic": {
-             fonts: [SANSSERIFITALIC], italic: true,
+             fonts: [SANSSERIFITALIC,MAIN,MONOSPACE,LATIN,ALPHABETS,MARKS,
+        ARROWS,OPERATORS,SYMBOLS,SHAPES,MISC,VARIANTS,SIZE1], italic: true,
              offsetA: 0x1D608,
              offsetN: 0xE1B4,
              offsetG: 0xE1BF,
              offsetE: 0xE1BF
           },
           "sans-serif-bold-italic": {
-             fonts: [SANSSERIFBOLDITALIC], bold:true, italic: true,
+             fonts: [SANSSERIFBOLDITALIC,MAIN,MONOSPACE,LATIN,ALPHABETS,MARKS,
+        ARROWS,OPERATORS,SYMBOLS,SHAPES,MISC,VARIANTS,SIZE1], bold:true, italic: true,
              offsetA: 0x1D63C,
              offsetN: 0xE1F6,
              offsetG: 0x1D790
           },
           "monospace": {
-             fonts: [MONOSPACE],
+             fonts: [MONOSPACE,MAIN,MONOSPACE,LATIN,ALPHABETS,MARKS,
+        ARROWS,OPERATORS,SYMBOLS,SHAPES,MISC,VARIANTS,SIZE1],
              offsetA: 0x1D670,
              offsetN: 0x1D7F6
           },
